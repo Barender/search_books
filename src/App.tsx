@@ -1,6 +1,5 @@
-import LinearProgress from "@mui/material/LinearProgress";
-import { Container } from "@mui/material";
 import axios, { CancelTokenSource } from "axios";
+import { Container, LinearProgress } from "@mui/material";
 import { useState, useEffect, useCallback, useDeferredValue } from "react";
 import api from "./utility/api";
 import caller from "./utility/caller";
@@ -24,13 +23,12 @@ const App: React.FC = () => {
           `${api.SEARCH}${searchTerm}`,
           null,
           "GET",
-          cancelTokenSource.token
+          cancelTokenSource.token,
+          setProgress
         );
         setFinalResult(result?.docs);
       } catch (error) {
         console.log(error);
-      } finally {
-        setProgress(false);
       }
     },
     [setProgress, setFinalResult, caller]
