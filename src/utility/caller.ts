@@ -17,7 +17,8 @@ const caller = async <T = any>(
   api: string,
   formData: any = null,
   method: AxiosRequestConfig["method"] = "GET",
-  cancelToken?: CancelToken
+  cancelToken?: CancelToken,
+  setProgress?: any
 ): Promise<T> => {
   const url: string = `${import.meta.env.VITE_BASEURL}${api}`;
   try {
@@ -34,6 +35,9 @@ const caller = async <T = any>(
     };
     const response: AxiosResponse<T> = await axios(config);
     delete pendingRequests[url];
+    if (response.data) {
+      setProgress(false);
+    }
     return response.data;
   } catch (error: any) {
     delete pendingRequests[url];
